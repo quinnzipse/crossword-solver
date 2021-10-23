@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class PuzzleKey extends Puzzle {
@@ -50,10 +49,10 @@ public class PuzzleKey extends Puzzle {
         return new CrosswordPuzzle(getWidth(), getHeight(), board, this);
     }
 
-    public void setDomains(Dictionaries domains) {
+    public void setDomains(Dictionaries dictionaries) {
         for (Word word : list) {
             int length = word.getLength();
-            word.setDomain(domains.get(length));
+            word.setDomain(dictionaries.get(length));
         }
     }
 
