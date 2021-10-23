@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class PuzzleKey extends Puzzle {
@@ -49,6 +50,13 @@ public class PuzzleKey extends Puzzle {
         return new CrosswordPuzzle(getWidth(), getHeight(), board, this);
     }
 
+    public void setDomains(Dictionaries domains) {
+        for (Word word : list) {
+            int length = word.getLength();
+            word.setDomain(domains.get(length));
+        }
+    }
+
     private Word[] getWordList() {
         ArrayList<Word> wordList = new ArrayList<>();
 
@@ -62,7 +70,7 @@ public class PuzzleKey extends Puzzle {
         return wordList.toArray(new Word[0]);
     }
 
-    public Word addWord(int x, int y, Direction direction) {
+    private Word addWord(int x, int y, Direction direction) {
         String name = get(x, y) + "";
         Point2D start = new Point2D.Float(x, y), end = getEndCoords(x, y, direction);
         Line2D line = new Line2D.Float(start, end);
@@ -74,19 +82,19 @@ public class PuzzleKey extends Puzzle {
         return new Word(name, length, line, direction);
     }
 
-    public boolean isDownWord(int x, int y) {
+    private boolean isDownWord(int x, int y) {
         return isNumber(x, y) && (isBlack(x, y - 1) && !isBlack(x, y + 1));
     }
 
-    public boolean isAcrossWord(int x, int y) {
+    private boolean isAcrossWord(int x, int y) {
         return isNumber(x, y) && (isBlack(x - 1, y) && !isBlack(x + 1, y));
     }
 
-    public boolean isBlack(int x, int y) {
+    private boolean isBlack(int x, int y) {
         return get(x, y) == '#';
     }
 
-    public boolean isNumber(int x, int y) {
+    private boolean isNumber(int x, int y) {
         return '0' <= get(x, y) && get(x, y) <= '9';
     }
 }

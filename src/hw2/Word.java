@@ -17,9 +17,13 @@ public class Word {
     }
 
     public void print() {
-        System.out.printf("%s %s Len-%d @: (%.0f,%.0f)->(%.0f,%.0f)\n", name,
+        System.out.printf("%s %s Len-%d @ (%.0f,%.0f)->(%.0f,%.0f) domain %s\n", name,
                 (direction == Direction.ACROSS ? "Across" : "Down"),
-                length, line.getX1(), line.getY1(), line.getX2(), line.getY2());
+                length, line.getX1(), line.getY1(), line.getX2(), line.getY2(), domain == null ? "null" : "set!");
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public void setDomain(String[] domain) {
