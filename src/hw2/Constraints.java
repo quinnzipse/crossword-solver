@@ -14,7 +14,7 @@ public class Constraints extends ArrayList<Constraint> {
 
         for (int i = 0; i < puzzleLength; i++) {
             Point2D coordinates = puzzleKey.getCoordinates(i);
-            List<Word> intersections = Arrays.stream(words).parallel()
+            List<Word> intersections = Arrays.stream(words)
                     .filter(word -> word.getIndexAt(coordinates) != -1)
                     .collect(Collectors.toList());
 
@@ -24,6 +24,9 @@ public class Constraints extends ArrayList<Constraint> {
 
                 constraints.add(new Constraint(word1, word2, coordinates));
             }
+
+            System.out.printf("There are %d words at (%d, %d).\n",
+                    intersections.size(), (int) coordinates.getX(), (int) coordinates.getY());
         }
 
         return constraints;

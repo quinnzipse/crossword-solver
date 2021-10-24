@@ -4,9 +4,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class PuzzleKey extends Puzzle {
     private final Word[] list;
@@ -28,11 +26,19 @@ public class PuzzleKey extends Puzzle {
             int height = scanner.nextInt();
 
             char[] board = new char[width * height];
+
             for (int i = 0; i < width * height; i++) {
-                board[i] = scanner.next().charAt(0);
+                if (scanner.hasNextInt()) {
+                    scanner.nextInt();
+                    board[i] = '@';
+                } else {
+                    board[i] = scanner.next().charAt(0);
+                }
             }
 
-            return new PuzzleKey(width, height, board);
+            var puzzle = new PuzzleKey(width, height, board);
+            puzzle.print();
+            return puzzle;
         } catch (IOException e) {
             System.out.println("File not found");
             return null;
@@ -74,7 +80,6 @@ public class PuzzleKey extends Puzzle {
     }
 
     private Word addWord(int x, int y, Direction direction) {
-        String name = get(x, y) + "";
         Point2D start = new Point2D.Float(x, y), end = getEndCoords(x, y, direction);
         Line2D line = new Line2D.Float(start, end);
         int length;
@@ -82,7 +87,7 @@ public class PuzzleKey extends Puzzle {
         if (Direction.ACROSS == direction) length = (int) (line.getX2() - line.getX1());
         else length = (int) (line.getY2() - line.getY1());
 
-        return new Word(name, length, line, direction);
+        return new Word(length, line, direction);
     }
 
     private boolean isDownWord(int x, int y) {
@@ -98,6 +103,6 @@ public class PuzzleKey extends Puzzle {
     }
 
     private boolean isNumber(int x, int y) {
-        return '0' <= get(x, y) && get(x, y) <= '9';
+        return get(x, y) == '@';
     }
 }

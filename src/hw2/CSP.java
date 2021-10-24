@@ -23,5 +23,7 @@ public class CSP {
 
     public void print() {
         Arrays.stream(words).parallel().forEach(Word::print);
+        constraints.stream().parallel().forEach(Constraint::print);
+        if (constraints.isEmpty()) System.out.println("Constraints are empty!");
     }
 }

@@ -30,4 +30,8 @@ public class Constraint {
 
         return word1Value.charAt(wordIndex1) == word2Value.charAt(wordIndex2);
     }
+
+    public void print() {
+        System.out.printf("%s at index %d is constrained with %s at index %d\n", word1, wordIndex1, word2, wordIndex2);
+    }
 }

@@ -25,11 +25,11 @@ abstract public class Puzzle {
     }
 
     public char get(int x, int y) {
-        try {
-            return board[x + y * width];
-        } catch (IndexOutOfBoundsException e) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             return '#';
         }
+        
+        return board[x + y * width];
     }
 
     public void print() {
