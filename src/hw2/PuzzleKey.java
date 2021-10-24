@@ -36,9 +36,7 @@ public class PuzzleKey extends Puzzle {
                 }
             }
 
-            var puzzle = new PuzzleKey(width, height, board);
-            puzzle.print();
-            return puzzle;
+            return new PuzzleKey(width, height, board);
         } catch (IOException e) {
             System.out.println("File not found");
             return null;
@@ -100,6 +98,10 @@ public class PuzzleKey extends Puzzle {
 
     private boolean isBlack(int x, int y) {
         return get(x, y) == '#';
+    }
+
+    public boolean isBlack(Point2D coordinates) {
+        return isBlack((int) coordinates.getX(), (int) coordinates.getY());
     }
 
     private boolean isNumber(int x, int y) {

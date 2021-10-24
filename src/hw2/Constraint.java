@@ -32,6 +32,10 @@ public class Constraint {
     }
 
     public void print() {
-        System.out.printf("%s at index %d is constrained with %s at index %d\n", word1, wordIndex1, word2, wordIndex2);
+        Point2D word1Location = word1.getLocation(), word2Location = word2.getLocation();
+
+        System.out.printf("(%.0f, %.0f) at index %d is constrained with (%.0f, %.0f) at index %d\n",
+                word1Location.getX(), word1Location.getY(), wordIndex1,
+                word2Location.getX(), word2Location.getY(), wordIndex2);
     }
 }

@@ -36,21 +36,11 @@ public class Word {
     }
 
     public int getIndexAt(Point2D coordinates) {
-        if (!containsPoint(coordinates)) {
-            System.out.printf("Line (%d, %d)->(%d, %d) %s contains (%d, %d)\n",
-                    (int) line.getX1(), (int) line.getY1(), (int) line.getX2(), (int) line.getY2(),
-                    direction == Direction.ACROSS ? "Across" : "Down",
-                    (int) coordinates.getX(), (int) coordinates.getY());
-            return -1;
-        }
+        if (!containsPoint(coordinates)) return -1;
 
-        System.out.printf("Line (%d, %d)->(%d, %d) %s contains (%d, %d)\n",
-                (int) line.getX1(), (int) line.getY1(), (int) line.getX2(), (int) line.getY2(),
-                direction == Direction.ACROSS ? "Across" : "Down",
-                (int) coordinates.getX(), (int) coordinates.getY());
+        int xDiff = (int) (coordinates.getX() - line.getX1()),
+                yDiff = (int) (coordinates.getY() - line.getY1());
 
-        int xDiff = (int) (line.getX1() - coordinates.getX());
-        int yDiff = (int) (line.getY1() - coordinates.getY());
         return xDiff + yDiff;
     }
 
@@ -61,15 +51,17 @@ public class Word {
         if (direction == Direction.ACROSS) {
             for (int i = 0; i < length; i++) allPoints.add(new Point2D.Float(startX + i, startY));
         } else {
-            for (int i = 0; i < length; i++) allPoints.add(new Point2D.Float(startX, startY + 1));
+            for (int i = 0; i < length; i++) allPoints.add(new Point2D.Float(startX, startY + i));
         }
-        System.out.print("COORDS: ");
-        allPoints.forEach(r -> System.out.printf("(%.0f, %.0f) ", r.getX(), r.getY()));
-        System.out.println();
+
         return allPoints.contains(coordinate);
     }
 
     public String getValue() {
         return null;
+    }
+
+    public Point2D getLocation() {
+        return line.getP1();
     }
 }
