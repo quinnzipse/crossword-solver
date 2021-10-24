@@ -1,6 +1,7 @@
 package hw2;
 
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 public class Word {
     private final String name;
@@ -31,5 +32,19 @@ public class Word {
         if (domain != null) {
             this.domain = domain;
         }
+    }
+
+    public int getIndexAt(Point2D coordinates) {
+        if (!line.contains(coordinates)) {
+            return -1;
+        }
+
+        int xDiff = (int) (line.getX1() - coordinates.getX());
+        int yDiff = (int) (line.getY1() - coordinates.getY());
+        return (xDiff + yDiff) - 1;
+    }
+
+    public String getValue() {
+        return null;
     }
 }

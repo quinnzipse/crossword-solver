@@ -1,10 +1,30 @@
 package hw2;
 
-public class Constraint {
-    private final Word w1, w2;
+import java.awt.geom.Point2D;
 
-    public Constraint(Word w1, Word w2) {
-        this.w1 = w1;
-        this.w2 = w2;
+public class Constraint {
+    private final Word word1, word2;
+    private final int wordIndex1, wordIndex2;
+
+    public Constraint(Word word1, Word word2, int wordIndex1, int wordIndex2) {
+        this.word1 = word1;
+        this.word2 = word2;
+        this.wordIndex1 = wordIndex1;
+        this.wordIndex2 = wordIndex2;
+    }
+
+    public Constraint(Word word1, Word word2, Point2D intersection) {
+        this.word1 = word1;
+        this.word2 = word2;
+        this.wordIndex1 = word1.getIndexAt(intersection);
+        this.wordIndex2 = word2.getIndexAt(intersection);
+    }
+
+    public boolean containsWord(Word word) {
+        return word == word1 || word == word2;
+    }
+
+    public boolean constraintSatisfied() {
+        word1.get
     }
 }
