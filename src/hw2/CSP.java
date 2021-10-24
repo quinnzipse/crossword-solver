@@ -6,8 +6,10 @@ public class CSP {
     private final Word[] words;
     private final Dictionaries domains;
     private final Constraints constraints;
+    private final PuzzleKey puzzleKey;
 
     public CSP(PuzzleKey puzzleKey, Dictionaries domains) {
+        this.puzzleKey = puzzleKey;
         this.words = puzzleKey.getWordList();
         this.constraints = Constraints.generateConstraints(puzzleKey);
         this.domains = domains;
@@ -16,7 +18,7 @@ public class CSP {
     }
 
     public CrosswordPuzzle solve() {
-        return null;
+        return puzzleKey.createBlankPuzzle();
     }
 
     public void print() {

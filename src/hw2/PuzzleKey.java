@@ -43,7 +43,7 @@ public class PuzzleKey extends Puzzle {
         char[] board = getBoard();
 
         for (int i = 0; i < board.length; i++) {
-            if (board[i] != '#') board[i] = ' ';
+            if (board[i] != '#') board[i] = '+';
         }
 
         return new CrosswordPuzzle(getWidth(), getHeight(), board, this);

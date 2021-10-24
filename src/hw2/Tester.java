@@ -12,7 +12,9 @@ public class Tester {
 
         CSP csp = new CSP(puzzleKey, dictionaries);
         csp.print();
-        csp.solve();
+
+        CrosswordPuzzle puzzle = csp.solve();
+        puzzle.print();
     }
 
     private static Dictionaries readDictionaries(String fileName) {

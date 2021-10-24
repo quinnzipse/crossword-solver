@@ -32,6 +32,13 @@ abstract public class Puzzle {
         }
     }
 
+    public void print() {
+        for (int y = 0; y < height; y++) {
+            String row = getRow(y);
+            System.out.println(row);
+        }
+    }
+
     public void set(int x, int y, char c) {
         board[x + y * width] = c;
     }
@@ -62,15 +69,15 @@ abstract public class Puzzle {
         return new Point2D.Float(x, y);
     }
 
-//    public String getColumn(int x) {
+    private String getRow(int y) {
+        StringBuilder sb = new StringBuilder();
+        for (int x = 0; x < width; x++) sb.append(get(x, y)).append(" ");
+        return sb.toString();
+    }
+
+//    private String getColumn(int x) {
 //        StringBuilder sb = new StringBuilder();
 //        for (int y = 0; y < height; y++) sb.append(get(x, y));
-//        return sb.toString();
-//    }
-//
-//    public String getRow(int y) {
-//        StringBuilder sb = new StringBuilder();
-//        for (int x = 0; x < width; x++) sb.append(get(x, y));
 //        return sb.toString();
 //    }
 //
