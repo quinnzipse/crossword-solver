@@ -13,7 +13,7 @@ public class PuzzleKey extends Puzzle {
 
     private PuzzleKey(int width, int height, char[] board) {
         super(width, height, board);
-        list = getWordList();
+        list = generateWordList();
     }
 
     public void printWordList() {
@@ -56,7 +56,7 @@ public class PuzzleKey extends Puzzle {
         }
     }
 
-    private Word[] getWordList() {
+    private Word[] generateWordList() {
         ArrayList<Word> wordList = new ArrayList<>();
 
         for (int x = 0; x < getWidth(); x++) {
@@ -67,6 +67,10 @@ public class PuzzleKey extends Puzzle {
         }
 
         return wordList.toArray(new Word[0]);
+    }
+
+    public Word[] getWordList() {
+        return list;
     }
 
     private Word addWord(int x, int y, Direction direction) {

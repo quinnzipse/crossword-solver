@@ -10,8 +10,9 @@ public class Tester {
         String dictionaryFileName = arguments.get("-d");
         Dictionaries dictionaries = readDictionaries(dictionaryFileName);
 
-        puzzleKey.setDomains(dictionaries);
-        puzzleKey.printWordList();
+        CSP csp = new CSP(puzzleKey, dictionaries);
+        csp.print();
+        csp.solve();
     }
 
     private static Dictionaries readDictionaries(String fileName) {

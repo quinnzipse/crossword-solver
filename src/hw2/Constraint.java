@@ -25,6 +25,9 @@ public class Constraint {
     }
 
     public boolean constraintSatisfied() {
-        word1.get
+        String word1Value = word1.getValue(),
+                word2Value = word2.getValue();
+
+        return word1Value.charAt(wordIndex1) == word2Value.charAt(wordIndex2);
     }
 }

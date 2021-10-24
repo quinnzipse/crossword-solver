@@ -12,6 +12,18 @@ abstract public class Puzzle {
         this.board = board;
     }
 
+    public Point2D getCoordinates(int index) {
+        int y = index / width;
+        int x = index % width;
+
+        return new Point2D.Float(x, y);
+    }
+
+    public char get(int index) {
+        Point2D coordinates = getCoordinates(index);
+        return get((int) coordinates.getX(), (int) coordinates.getY());
+    }
+
     public char get(int x, int y) {
         try {
             return board[x + y * width];
