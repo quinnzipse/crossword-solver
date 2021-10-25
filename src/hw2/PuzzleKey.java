@@ -14,10 +14,6 @@ public class PuzzleKey extends Puzzle {
         list = generateWordList();
     }
 
-    public void printWordList() {
-        Arrays.stream(list).forEach(Word::print);
-    }
-
     public static PuzzleKey createFromFile(String filename) {
         try {
             Scanner scanner = new Scanner(new File(filename));
@@ -50,7 +46,7 @@ public class PuzzleKey extends Puzzle {
             if (board[i] != '#') board[i] = '+';
         }
 
-        return new CrosswordPuzzle(getWidth(), getHeight(), board, this);
+        return new CrosswordPuzzle(getWidth(), getHeight(), board);
     }
 
     private Word[] generateWordList() {

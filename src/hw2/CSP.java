@@ -1,7 +1,5 @@
 package hw2;
 
-import java.util.Arrays;
-
 public class CSP {
     private final Word[] words;
     private final Dictionaries domains;
@@ -82,11 +80,5 @@ public class CSP {
         }
 
         throw new IndexOutOfBoundsException("Asked for next word in complete assignment");
-    }
-
-    public void print() {
-        Arrays.stream(words).parallel().forEach(Word::print);
-        constraints.stream().parallel().forEach(Constraint::print);
-        if (constraints.isEmpty()) System.out.println("Constraints are empty!");
     }
 }

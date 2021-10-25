@@ -2,7 +2,6 @@ package hw2;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -75,7 +74,13 @@ public class Word {
         return domain;
     }
 
-    public Point2D getLocation() {
-        return line.getP1();
+    public boolean isConsistent(Assignment assignment) {
+        for (Constraint constraint : getConstraints()) {
+            if (!constraint.constraintSatisfied(assignment)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
