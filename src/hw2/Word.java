@@ -83,4 +83,9 @@ public class Word {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "X00" + (direction == Direction.ACROSS ? "a" : "d");
+    }
 }
