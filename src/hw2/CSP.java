@@ -1,5 +1,7 @@
 package hw2;
 
+import java.util.logging.Level;
+
 public class CSP {
     private final Word[] words;
     private final Dictionaries domains;
@@ -12,6 +14,9 @@ public class CSP {
         this.words = puzzleKey.getWordList();
         this.constraints = Constraints.generateConstraints(puzzleKey);
         this.domains = domains;
+
+        CustomLogger.log(Level.FINER, "CSP has %d variables");
+        CustomLogger.log(Level.FINER, "CSP has %d constrains");
 
         setDomains();
         setConstraints();
@@ -32,6 +37,7 @@ public class CSP {
     }
 
     public CrosswordPuzzle solve() {
+        CustomLogger.log(Level.FINER, "Attempting to solve crossword puzzle...");
         Assignment solution = backtrackingSearch();
 
         if (solution == FAILURE) return null;
