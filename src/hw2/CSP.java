@@ -3,23 +3,18 @@ package hw2;
 import java.util.logging.Level;
 
 public class CSP {
-    private final Word[] words;
+    private final Word[] variables;
     private final Dictionaries domains;
     private final Constraints constraints;
-    private final PuzzleKey puzzleKey;
-    private final ValueOrder valueOrder;
-    private final VariableOrder variableOrder;
-    private final static Assignment FAILURE = null;
+    private final CrosswordPuzzle solution;
 
-    public CSP(PuzzleKey puzzleKey, Dictionaries domains, ValueOrder valueOrder, VariableOrder variableOrder) {
-        this.puzzleKey = puzzleKey;
-        this.words = puzzleKey.getWordList();
+    public CSP(PuzzleKey puzzleKey, Dictionaries domains) {
+        this.variables = puzzleKey.getWordList();
         this.constraints = Constraints.generateConstraints(puzzleKey);
         this.domains = domains;
-        this.valueOrder = valueOrder;
-        this.variableOrder = variableOrder;
+        this.solution = puzzleKey.createBlankPuzzle();
 
-        Logger.log(Level.FINER, String.format("CSP has %d variables", words.length));
+        Logger.log(Level.FINER, String.format("CSP has %d variables", variables.length));
         Logger.log(Level.FINER, String.format("CSP has %d constrains", constraints.size()));
 
         setDomains();
@@ -27,7 +22,7 @@ public class CSP {
     }
 
     private void setDomains() {
-        for (Word word : words) {
+        for (Word word : variables) {
             int wordLength = word.getLength();
             word.setDomain(domains.get(wordLength));
         }
@@ -40,58 +35,12 @@ public class CSP {
         }
     }
 
-    public CrosswordPuzzle solve() {
-        Logger.log(Level.FINER, "Attempting to solve crossword puzzle...");
-        Assignment solution = backtrackingSearch();
-
-        if (solution == FAILURE) return null;
-
-        CrosswordPuzzle puzzle = puzzleKey.createBlankPuzzle();
-        puzzle.fillWords(solution);
-
-        return puzzle;
+    public Word[] getVariables() {
+        return variables;
     }
 
-    private Assignment backtrackingSearch() {
-        return backtrack(new Assignment());
-    }
-
-    private Assignment backtrack(Assignment assignment) {
-        if (assignment.isComplete(words)) return assignment;
-        Word variable = selectUnassignedWord(assignment);
-
-        String[] domain = variable.getDomain();
-        if (domain == null) return FAILURE;
-
-        for (String value : orderedDomain(domain)) {
-            assignment.addAssignment(variable, value);
-
-            if (assignment.isConsistent()) {
-                Assignment result = backtrack(assignment);
-                if (result != FAILURE) return result;
-            }
-
-            assignment.removeAssignment(variable);
-        }
-        return FAILURE;
-    }
-
-    private String[] orderedDomain(String[] domain) {
-        // TODO: Implement ordering of the domain.
-        switch (variableOrder) {
-            case STATIC ->
-        }
-        return domain;
-    }
-
-    private Word selectUnassignedWord(Assignment assignment) {
-        // TODO: Implement other orders of selection.
-        for (Word word : words) {
-            if (!assignment.containsKey(word)) {
-                return word;
-            }
-        }
-
-        throw new IndexOutOfBoundsException("Asked for next word in complete assignment");
+    public CrosswordPuzzle getSolutionPuzzle(Assignment solutionAssignments) {
+        solution.fillWords(solutionAssignments);
+        return solution;
     }
 }

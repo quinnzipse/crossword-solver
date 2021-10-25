@@ -17,9 +17,13 @@ public class Tester {
         Logger.log(Level.FINER, String.format("Reading dictionary from [%s]", dictionaryFileName));
         Dictionaries dictionaries = readDictionaries(dictionaryFileName);
 
-        CSP csp = new CSP(puzzleKey, dictionaries, ValueOrder.STATIC, VariableOrder.STATIC);
+        String valueOrderString = arguments.get("-vo");
+        ValueOrderer.Order valueOrder = ValueOrderer.getOrderByString(valueOrderString);
 
-        CrosswordPuzzle puzzle = csp.solve();
+        CSP csp = new CSP(puzzleKey, dictionaries);
+        CSPSolver cspSolver = new CSPSolver(csp, valueOrder, VariableOrderer.Order.STATIC);
+
+        CrosswordPuzzle puzzle = cspSolver.solve();
         if (puzzle != null) {
             puzzle.print();
         } else {

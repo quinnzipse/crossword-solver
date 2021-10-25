@@ -6,7 +6,20 @@ import java.util.PriorityQueue;
 public abstract class ValueOrderer {
     abstract public String[] order(Word word);
 
-    public static ValueOrderer getValueOrderer(ValueOrder valueOrder, Assignment assignment) {
+    public enum Order {
+        STATIC,
+        LEAST_CONSTRAINING_VALUE
+    }
+
+    public static Order getOrderByString(String orderCode) {
+        return switch (orderCode) {
+            case "static" -> Order.STATIC;
+            case "lcv" -> Order.LEAST_CONSTRAINING_VALUE;
+            default -> throw new IllegalArgumentException("Invalid argument value order: " + orderCode);
+        };
+    }
+
+    public static ValueOrderer getValueOrderer(Order valueOrder, Assignment assignment) {
         return switch (valueOrder) {
             case STATIC -> new Static();
             case LEAST_CONSTRAINING_VALUE -> new LCV(assignment);
