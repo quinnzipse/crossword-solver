@@ -78,6 +78,9 @@ public class CSP {
 
     private String[] orderedDomain(String[] domain) {
         // TODO: Implement ordering of the domain.
+        switch (variableOrder) {
+            case STATIC ->
+        }
         return domain;
     }
 

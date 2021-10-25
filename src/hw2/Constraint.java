@@ -28,4 +28,9 @@ public class Constraint {
     public Word getWord2() {
         return word2;
     }
+
+    public Word getOtherWord(Word word) {
+        if (word == word1) return word2;
+        return word1;
+    }
 }
