@@ -7,6 +7,7 @@ public class CSP {
     private final Dictionaries domains;
     private final Constraints constraints;
     private final PuzzleKey puzzleKey;
+    private final static Assignment FAILURE = null;
 
     public CSP(PuzzleKey puzzleKey, Dictionaries domains) {
         this.puzzleKey = puzzleKey;
@@ -35,6 +36,8 @@ public class CSP {
     public CrosswordPuzzle solve() {
         Assignment solution = backtrackingSearch();
 
+        if (solution == FAILURE) return null;
+
         CrosswordPuzzle puzzle = puzzleKey.createBlankPuzzle();
         puzzle.fillWords(solution);
 
@@ -46,29 +49,22 @@ public class CSP {
     }
 
     private Assignment backtrack(Assignment assignment) {
-        // if assignment is complete, return assignment.
         if (assignment.isComplete(words)) return assignment;
-        // Select unassigned Variable
         Word unassignedWord = selectUnassignedWord(assignment);
-        // for each value that variable could have...
-        for (String value : unassignedWord.getDomain()) {
-            // add to the assignment
+
+        String[] domain = unassignedWord.getDomain();
+        if (domain == null) return FAILURE;
+
+        for (String value : domain) {
             assignment.put(unassignedWord, value);
 
-            // if the value is consistent...
             if (assignment.isConsistent()) {
-                // result = recur with new assignment
                 Assignment result = backtrack(assignment);
-                // if the result is not failure, return it.
-                if (result != null) return result;
+                if (result != FAILURE) return result;
             }
-
-            // otherwise, remove the last assignment
             assignment.remove(unassignedWord);
         }
-
-        // If a solution wasn't found, return failure.
-        return null;
+        return FAILURE;
     }
 
     private Word selectUnassignedWord(Assignment assignment) {

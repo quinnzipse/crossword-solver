@@ -13,7 +13,11 @@ public class Tester {
         CSP csp = new CSP(puzzleKey, dictionaries);
 
         CrosswordPuzzle puzzle = csp.solve();
-        puzzle.print();
+        if (puzzle != null) {
+            puzzle.print();
+        } else {
+            System.out.println("No solution found");
+        }
     }
 
     private static Dictionaries readDictionaries(String fileName) {
