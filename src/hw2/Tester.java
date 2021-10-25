@@ -7,14 +7,14 @@ public class Tester {
         Arguments arguments = parseArguments(args);
 
         String loggingLevel = arguments.get("-v");
-        CustomLogger.setupLogger(loggingLevel);
+        Logger.setupLogger(loggingLevel);
 
         String puzzleFileName = arguments.get("-p");
-        CustomLogger.log(Level.FINER, String.format("Reading puzzle from [%s]", puzzleFileName));
+        Logger.log(Level.FINER, String.format("Reading puzzle from [%s]", puzzleFileName));
         PuzzleKey puzzleKey = readPuzzle(puzzleFileName);
 
         String dictionaryFileName = arguments.get("-d");
-        CustomLogger.log(Level.FINER, String.format("Reading dictionary from [%s]", dictionaryFileName));
+        Logger.log(Level.FINER, String.format("Reading dictionary from [%s]", dictionaryFileName));
         Dictionaries dictionaries = readDictionaries(dictionaryFileName);
 
         CSP csp = new CSP(puzzleKey, dictionaries);
