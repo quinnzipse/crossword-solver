@@ -18,6 +18,14 @@ public class Assignment extends HashMap<Word, String> {
         return true;
     }
 
+    public void addAssignment(Word word, String string) {
+        put(word, string);
+    }
+
+    public void removeAssignment(Word word) {
+        remove(word);
+    }
+
     public boolean isComplete(Word[] wordList) {
         return wordList.length == this.size();
     }

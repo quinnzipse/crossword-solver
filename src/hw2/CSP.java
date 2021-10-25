@@ -50,24 +50,31 @@ public class CSP {
 
     private Assignment backtrack(Assignment assignment) {
         if (assignment.isComplete(words)) return assignment;
-        Word unassignedWord = selectUnassignedWord(assignment);
+        Word variable = selectUnassignedWord(assignment);
 
-        String[] domain = unassignedWord.getDomain();
+        String[] domain = variable.getDomain();
         if (domain == null) return FAILURE;
 
-        for (String value : domain) {
-            assignment.put(unassignedWord, value);
+        for (String value : orderedDomain(domain)) {
+            assignment.addAssignment(variable, value);
 
             if (assignment.isConsistent()) {
                 Assignment result = backtrack(assignment);
                 if (result != FAILURE) return result;
             }
-            assignment.remove(unassignedWord);
+
+            assignment.removeAssignment(variable);
         }
         return FAILURE;
     }
 
+    private String[] orderedDomain(String[] domain) {
+        // TODO: Implement ordering of the domain.
+        return domain;
+    }
+
     private Word selectUnassignedWord(Assignment assignment) {
+        // TODO: Implement other orders of selection.
         for (Word word : words) {
             if (!assignment.containsKey(word)) {
                 return word;
