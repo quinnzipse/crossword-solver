@@ -11,7 +11,6 @@ public class Tester {
         Dictionaries dictionaries = readDictionaries(dictionaryFileName);
 
         CSP csp = new CSP(puzzleKey, dictionaries);
-        csp.print();
 
         CrosswordPuzzle puzzle = csp.solve();
         puzzle.print();

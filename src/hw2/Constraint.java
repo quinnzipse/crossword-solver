@@ -24,11 +24,20 @@ public class Constraint {
         return word == word1 || word == word2;
     }
 
-    public boolean constraintSatisfied() {
-        String word1Value = word1.getValue(),
-                word2Value = word2.getValue();
+    public boolean constraintSatisfied(Assignment assignment) {
+        String word1Value = assignment.get(word1),
+                word2Value = assignment.get(word2);
 
+        if (word1Value == null || word2Value == null) return true;
         return word1Value.charAt(wordIndex1) == word2Value.charAt(wordIndex2);
+    }
+
+    public Word getWord1() {
+        return word1;
+    }
+
+    public Word getWord2() {
+        return word2;
     }
 
     public void print() {

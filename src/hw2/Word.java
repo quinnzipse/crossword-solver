@@ -2,6 +2,7 @@ package hw2;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,11 +11,16 @@ public class Word {
     private final Line2D line;
     private String[] domain;
     private final Direction direction;
+    private final Constraints constraints = new Constraints();
 
     public Word(int length, Line2D line, Direction direction) {
         this.length = length;
         this.line = line;
         this.direction = direction;
+    }
+
+    public void setPuzzleValue(Puzzle puzzle, String value) {
+        puzzle.setValue(line.getP1(), direction, value);
     }
 
     public void print() {
@@ -30,9 +36,17 @@ public class Word {
 
     public void setDomain(String[] domain) {
         // Domain is effectively final
-        if (domain != null) {
+        if (this.domain == null) {
             this.domain = domain;
         }
+    }
+
+    public void addConstraint(Constraint constraint) {
+        constraints.add(constraint);
+    }
+
+    public Constraints getConstraints() {
+        return constraints;
     }
 
     public int getIndexAt(Point2D coordinates) {
@@ -57,8 +71,8 @@ public class Word {
         return allPoints.contains(coordinate);
     }
 
-    public String getValue() {
-        return null;
+    public String[] getDomain() {
+        return domain;
     }
 
     public Point2D getLocation() {

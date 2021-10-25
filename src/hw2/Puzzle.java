@@ -28,7 +28,7 @@ abstract public class Puzzle {
         if (x < 0 || x >= width || y < 0 || y >= height) {
             return '#';
         }
-        
+
         return board[x + y * width];
     }
 
@@ -73,6 +73,20 @@ abstract public class Puzzle {
         StringBuilder sb = new StringBuilder();
         for (int x = 0; x < width; x++) sb.append(get(x, y)).append(" ");
         return sb.toString();
+    }
+
+    public void setValue(Point2D start, Direction direction, String value) {
+        int x = (int) start.getX(), y = (int) start.getY();
+
+        if (direction == Direction.DOWN) {
+            for (int i = 0; i < value.length(); i++) {
+                set(x, y + i, value.charAt(i));
+            }
+        } else {
+            for (int i = 0; i < value.length(); i++) {
+                set(x + i, y, value.charAt(i));
+            }
+        }
     }
 
 //    private String getColumn(int x) {

@@ -53,13 +53,6 @@ public class PuzzleKey extends Puzzle {
         return new CrosswordPuzzle(getWidth(), getHeight(), board, this);
     }
 
-    public void setDomains(Dictionaries dictionaries) {
-        for (Word word : list) {
-            int length = word.getLength();
-            word.setDomain(dictionaries.get(length));
-        }
-    }
-
     private Word[] generateWordList() {
         ArrayList<Word> wordList = new ArrayList<>();
 
