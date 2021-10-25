@@ -15,7 +15,7 @@ public class Logger {
     }
 
     public static void log(Level messageLevel, String message) {
-        if (messageLevel.intValue() > level.intValue()) {
+        if (messageLevel.intValue() >= level.intValue()) {
             System.out.println(message);
         }
     }

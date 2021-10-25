@@ -1,6 +1,7 @@
 package hw2;
 
 import java.awt.geom.Point2D;
+import java.util.logging.Level;
 
 abstract public class Puzzle {
     private final char[] board;
@@ -30,7 +31,7 @@ abstract public class Puzzle {
     public void print() {
         for (int y = 0; y < height; y++) {
             String row = getRow(y);
-            System.out.println(row);
+            Logger.log(Level.FINE, row);
         }
     }
 

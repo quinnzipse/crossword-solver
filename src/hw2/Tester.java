@@ -17,13 +17,13 @@ public class Tester {
         Logger.log(Level.FINER, String.format("Reading dictionary from [%s]", dictionaryFileName));
         Dictionaries dictionaries = readDictionaries(dictionaryFileName);
 
-        CSP csp = new CSP(puzzleKey, dictionaries);
+        CSP csp = new CSP(puzzleKey, dictionaries, ValueOrder.STATIC, VariableOrder.STATIC);
 
         CrosswordPuzzle puzzle = csp.solve();
         if (puzzle != null) {
             puzzle.print();
         } else {
-            System.out.println("No solution found");
+            Logger.log(Level.FINE, "No solution found");
         }
     }
 

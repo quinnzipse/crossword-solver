@@ -7,16 +7,20 @@ public class CSP {
     private final Dictionaries domains;
     private final Constraints constraints;
     private final PuzzleKey puzzleKey;
+    private final ValueOrder valueOrder;
+    private final VariableOrder variableOrder;
     private final static Assignment FAILURE = null;
 
-    public CSP(PuzzleKey puzzleKey, Dictionaries domains) {
+    public CSP(PuzzleKey puzzleKey, Dictionaries domains, ValueOrder valueOrder, VariableOrder variableOrder) {
         this.puzzleKey = puzzleKey;
         this.words = puzzleKey.getWordList();
         this.constraints = Constraints.generateConstraints(puzzleKey);
         this.domains = domains;
+        this.valueOrder = valueOrder;
+        this.variableOrder = variableOrder;
 
-        Logger.log(Level.FINER, "CSP has %d variables");
-        Logger.log(Level.FINER, "CSP has %d constrains");
+        Logger.log(Level.FINER, String.format("CSP has %d variables", words.length));
+        Logger.log(Level.FINER, String.format("CSP has %d constrains", constraints.size()));
 
         setDomains();
         setConstraints();
