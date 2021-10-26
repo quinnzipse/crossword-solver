@@ -75,17 +75,6 @@ public class Word {
         return allPoints.contains(coordinate);
     }
 
-    // This probably should be a word problem....
-    public boolean isConsistent(Assignment assignment) {
-        for (Constraint constraint : constraints) {
-            if (!constraint.constraintSatisfied(assignment)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public String[] getDomain() {
         return domain;
     }

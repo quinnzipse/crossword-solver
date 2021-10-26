@@ -8,8 +8,9 @@ public class Assignment extends HashMap<Word, String> {
         Set<Word> wordsAssigned = this.keySet();
 
         for (Word word : wordsAssigned) {
-            if (!word.isConsistent(this)) {
-                return false;
+            Constraints relevantConstraints = word.constraints;
+            for (Constraint constraint : relevantConstraints) {
+                if (!constraint.isSatisfied(this)) return false;
             }
         }
 

@@ -5,34 +5,26 @@ import java.util.logging.Level;
 public class CSP {
     private final Word[] variables;
     private final Dictionaries domains;
-    private final Constraints constraints;
 
     private final PuzzleKey puzzleKey;
 
     public CSP(PuzzleKey puzzleKey, Dictionaries domains) {
         this.variables = puzzleKey.wordList;
-        this.constraints = Constraints.generateConstraints(puzzleKey);
         this.domains = domains;
         this.puzzleKey = puzzleKey;
+
+        Constraints constraints = Constraints.generateConstraints(puzzleKey);
 
         Logger.log(Level.FINER, String.format("CSP has %d variables", variables.length));
         Logger.log(Level.FINER, String.format("CSP has %d constrains", constraints.size()));
 
         setDomains();
-        setConstraints();
     }
 
     private void setDomains() {
         for (Word word : variables) {
             int wordLength = word.length;
             word.setDomain(domains.get(wordLength));
-        }
-    }
-
-    private void setConstraints() {
-        for (Constraint constraint : constraints) {
-            constraint.getWord1().addConstraint(constraint);
-            constraint.getWord2().addConstraint(constraint);
         }
     }
 

@@ -9,6 +9,8 @@ public class CrosswordPuzzle extends Board {
     }
 
     public void fillWords(Assignment assignment) {
+        if (assignment == null) return;
+
         Set<Word> words = assignment.keySet();
         for (Word word : words) {
             String value = assignment.get(word);
@@ -17,9 +19,12 @@ public class CrosswordPuzzle extends Board {
     }
 
     private void setWord(Word w, String value) {
-        if (value.length() > w.length) {
+        if (w == null)
+            throw new InvalidParameterException("Cannot set Word (null)");
+        if (value == null)
+            throw new InvalidParameterException("Cannot set Word (" + w + ") to null");
+        if (value.length() > w.length)
             throw new InvalidParameterException("Value (" + value + ") is too long for word " + w);
-        }
 
         if (w.direction == Direction.DOWN) {
             setDownWord(w, value);
