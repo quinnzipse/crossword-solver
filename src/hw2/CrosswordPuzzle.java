@@ -17,11 +17,11 @@ public class CrosswordPuzzle extends Board {
     }
 
     private void setWord(Word w, String value) {
-        if (value.length() > w.getLength()) {
+        if (value.length() > w.length) {
             throw new InvalidParameterException("Value (" + value + ") is too long for word " + w);
         }
 
-        if (w.getDirection() == Direction.DOWN) {
+        if (w.direction == Direction.DOWN) {
             setDownWord(w, value);
         } else {
             setAcrossWord(w, value);

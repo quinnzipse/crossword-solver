@@ -28,7 +28,7 @@ public class Tester {
 
         CrosswordPuzzle puzzle = cspSolver.solve();
         if (puzzle != null) {
-            puzzle.print();
+            puzzle.display();
         } else {
             Logger.log(Level.FINE, "No solution found");
         }

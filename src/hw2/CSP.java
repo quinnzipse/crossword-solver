@@ -10,7 +10,7 @@ public class CSP {
     private final PuzzleKey puzzleKey;
 
     public CSP(PuzzleKey puzzleKey, Dictionaries domains) {
-        this.variables = puzzleKey.getWordList();
+        this.variables = puzzleKey.wordList;
         this.constraints = Constraints.generateConstraints(puzzleKey);
         this.domains = domains;
         this.puzzleKey = puzzleKey;
@@ -24,7 +24,7 @@ public class CSP {
 
     private void setDomains() {
         for (Word word : variables) {
-            int wordLength = word.getLength();
+            int wordLength = word.length;
             word.setDomain(domains.get(wordLength));
         }
     }

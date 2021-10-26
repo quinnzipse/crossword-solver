@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.*;
 
 public class PuzzleKey extends Board {
-    private final Word[] list;
+    public final Word[] wordList;
 
     private PuzzleKey(int width, int height, char[] board, Map<Integer, Integer> indexToNumber) {
         super(width, height, board);
-        list = generateWordList(indexToNumber);
+        wordList = generateWordList(indexToNumber);
     }
 
     public static PuzzleKey createFromFile(String filename) {
@@ -70,17 +70,13 @@ public class PuzzleKey extends Board {
         return wordList.toArray(new Word[0]);
     }
 
+    // TODO: Simplify this even more by using direction instead of calculating endCoordinates?
     private Word generateWord(int x, int y, Direction direction, int wordNumber) {
         Point2D start = new Point2D.Float(x, y),
                 end = getEndCoordinates(x, y, direction);
-
         Line2D line = new Line2D.Float(start, end);
-        int length;
 
-        if (Direction.ACROSS == direction) length = (int) (line.getX2() - line.getX1());
-        else length = (int) (line.getY2() - line.getY1());
-
-        return new Word(length, line, direction, wordNumber);
+        return new Word(wordNumber, line);
     }
 
     private Point2D getEndCoordinates(int x, int y, Direction direction) {
@@ -115,11 +111,6 @@ public class PuzzleKey extends Board {
 
     private boolean isNumber(int x, int y) {
         return getAt(x, y) == '@';
-    }
-
-
-    public Word[] getWordList() {
-        return list;
     }
 }
 

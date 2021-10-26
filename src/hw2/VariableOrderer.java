@@ -118,7 +118,7 @@ abstract public class VariableOrderer {
             for (Word variable : variables) {
                 if (assignment.containsKey(variable)) continue;
                 int degree = 0;
-                Constraints constraints = variable.getConstraints();
+                Constraints constraints = variable.constraints;
                 for (Constraint constraint : constraints) {
                     Word otherWord = constraint.getOtherWord(variable);
                     if (!assignment.containsKey(otherWord)) degree++;
@@ -166,7 +166,7 @@ abstract public class VariableOrderer {
             for (Word variable : variables) {
                 if (assignment.containsKey(variable)) continue;
                 int remainingValues = 0, degree = 0;
-                Constraints constraints = variable.getConstraints();
+                Constraints constraints = variable.constraints;
                 for (Constraint constraint : constraints) {
                     Word otherWord = constraint.getOtherWord(variable);
                     if (assignment.containsKey(otherWord)) degree++;

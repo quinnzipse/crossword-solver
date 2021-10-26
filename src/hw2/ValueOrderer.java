@@ -38,7 +38,7 @@ public abstract class ValueOrderer {
         public String[] order(Word word) {
             PriorityQueue<Value> orderedDomain = new PriorityQueue<>();
 
-            if (word.getConstraints().isEmpty()) return word.getDomain();
+            if (word.constraints.isEmpty()) return word.getDomain();
 
             for (String domainValue : word.getDomain()) {
                 assignment.addAssignment(word, domainValue);
@@ -53,7 +53,7 @@ public abstract class ValueOrderer {
         }
 
         private int getLCV(Word word) {
-            Constraints constraints = word.getConstraints();
+            Constraints constraints = word.constraints;
             int constraintFactor = 0;
 
             for (Constraint constraint : constraints) {

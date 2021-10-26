@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Constraints extends ArrayList<Constraint> {
     public static Constraints generateConstraints(PuzzleKey puzzleKey) {
-        Word[] words = puzzleKey.getWordList();
+        Word[] words = puzzleKey.wordList;
         Constraints constraints = new Constraints();
         int puzzleLength = puzzleKey.height * puzzleKey.width;
 

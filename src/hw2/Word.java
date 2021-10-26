@@ -2,57 +2,43 @@ package hw2;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.sql.Driver;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class Word {
-    private final int length;
+    private final int id;
     private final Line2D line;
-    private final Direction direction;
-    private final int wordNumber;
+    public final int length;
+    public final Direction direction;
 
     private String[] domain;
-    private final Constraints constraints = new Constraints();
+    public final Constraints constraints = new Constraints();
 
-    public Word(int length, Line2D line, Direction direction, int wordNumber) {
-        this.length = length;
+    public Word(int wordNumber, Line2D line) {
+        this.direction = line.getX1() == line.getX2() ? Direction.DOWN : Direction.ACROSS;
+        if (Direction.ACROSS == direction) length = (int) (line.getX2() - line.getX1());
+        else length = (int) (line.getY2() - line.getY1());
+
         this.line = line;
-        this.direction = direction;
-        this.wordNumber = wordNumber;
-    }
-
-    public Direction getDirection() {
-        return direction;
+        this.id = wordNumber;
     }
 
     public Point2D getStartingPoint() {
         return line.getP1();
     }
 
-    public void print() {
-        System.out.printf("(%.0f,%.0f)->(%.0f,%.0f) %s Len-%d domain %s\n",
-                line.getX1(), line.getY1(), line.getX2(), line.getY2(),
-                (direction == Direction.ACROSS ? "Across" : "Down"),
-                length, domain == null ? "null" : "set!");
-    }
-
-    public int getLength() {
-        return length;
-    }
-
     public void setDomain(String[] domain) {
-        // Domain is effectively final
-        if (this.domain == null) {
-            this.domain = domain;
+        if (this.domain != null) {
+            Logger.log(Level.WARNING, "Domain was overwritten!");
         }
+
+        this.domain = domain;
     }
 
     public void addConstraint(Constraint constraint) {
         constraints.add(constraint);
-    }
-
-    public Constraints getConstraints() {
-        return constraints;
     }
 
     public int getIndexAt(Point2D coordinates) {
@@ -77,12 +63,9 @@ public class Word {
         return allPoints.contains(coordinate);
     }
 
-    public String[] getDomain() {
-        return domain;
-    }
-
+    // This probably should be a word problem....
     public boolean isConsistent(Assignment assignment) {
-        for (Constraint constraint : getConstraints()) {
+        for (Constraint constraint : constraints) {
             if (!constraint.constraintSatisfied(assignment)) {
                 return false;
             }
@@ -91,8 +74,12 @@ public class Word {
         return true;
     }
 
+    public String[] getDomain() {
+        return domain;
+    }
+
     @Override
     public String toString() {
-        return "X" + wordNumber + (direction == Direction.ACROSS ? "a" : "d");
+        return "X" + id + (direction == Direction.ACROSS ? "a" : "d");
     }
 }
