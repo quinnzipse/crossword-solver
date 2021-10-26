@@ -2,9 +2,7 @@ package hw2;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.sql.Driver;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 public class Word {
@@ -17,12 +15,26 @@ public class Word {
     public final Constraints constraints = new Constraints();
 
     public Word(int wordNumber, Line2D line) {
-        this.direction = line.getX1() == line.getX2() ? Direction.DOWN : Direction.ACROSS;
-        if (Direction.ACROSS == direction) length = (int) (line.getX2() - line.getX1());
-        else length = (int) (line.getY2() - line.getY1());
-
-        this.line = line;
         this.id = wordNumber;
+        this.line = line;
+        this.direction = calcDirection();
+        this.length = calcLength();
+    }
+
+    private Direction calcDirection() {
+        return line.getX1() == line.getX2() ? Direction.DOWN : Direction.ACROSS;
+    }
+
+    private int calcLength() {
+        int length;
+
+        if (Direction.ACROSS == direction) {
+            length = (int) (line.getX2() - line.getX1());
+        } else {
+            length = (int) (line.getY2() - line.getY1());
+        }
+
+        return length;
     }
 
     public Point2D getStartingPoint() {
