@@ -1,7 +1,9 @@
 package hw2;
 
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 abstract public class Puzzle {
     private final char[] board;
@@ -31,7 +33,14 @@ abstract public class Puzzle {
     public void print() {
         for (int y = 0; y < height; y++) {
             String row = getRow(y);
-            Logger.log(Level.FINE, row);
+            String[] s = row.split(" ");
+            String[] n = Arrays.stream(s).map(s1 -> {
+                if (s1.charAt(0) == '#') return " ";
+                else return s1;
+            }).toArray(String[]::new);
+
+
+            Logger.log(Level.FINE, String.join("", n));
         }
     }
 
