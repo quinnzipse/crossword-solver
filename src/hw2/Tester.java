@@ -1,5 +1,8 @@
 package hw2;
 
+import hw2.variable.Order;
+import hw2.variable.VariableOrderer;
+
 import java.util.logging.Level;
 
 public class Tester {
@@ -21,7 +24,7 @@ public class Tester {
         ValueOrderer.Order valueOrder = ValueOrderer.getOrderByString(valueOrderString);
 
         String variableSelectionString = arguments.get("-vs");
-        VariableOrderer.Order variableOrder = VariableOrderer.getOrderByString(variableSelectionString);
+        Order variableOrder = VariableOrderer.getOrderByString(variableSelectionString);
 
         CSP csp = new CSP(puzzleKey, domains);
         CSPSolver cspSolver = new CSPSolver(csp, valueOrder, variableOrder);

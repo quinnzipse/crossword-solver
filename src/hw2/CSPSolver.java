@@ -1,5 +1,8 @@
 package hw2;
 
+import hw2.variable.Order;
+import hw2.variable.VariableOrderer;
+
 import java.util.logging.Level;
 
 public class CSPSolver {
@@ -8,7 +11,7 @@ public class CSPSolver {
     private VariableOrderer variableOrderer;
     private final Assignment assignment = new Assignment();
 
-    public CSPSolver(CSP csp, ValueOrderer.Order valueOrder, VariableOrderer.Order variableOrder) {
+    public CSPSolver(CSP csp, ValueOrderer.Order valueOrder, Order variableOrder) {
         this.csp = csp;
         setValueOrder(valueOrder);
         setVariableOrder(variableOrder);
@@ -18,7 +21,7 @@ public class CSPSolver {
         this.valueOrderer = ValueOrderer.getValueOrderer(valueOrder, assignment);
     }
 
-    public void setVariableOrder(VariableOrderer.Order variableOrder) {
+    public void setVariableOrder(Order variableOrder) {
         this.variableOrderer = VariableOrderer.getVariableOrderer(variableOrder, assignment, csp.variables);
     }
 
