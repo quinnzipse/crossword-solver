@@ -1,7 +1,6 @@
 package hw2;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class Assignment extends HashMap<Word, String> {
     public boolean isConsistent() {

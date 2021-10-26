@@ -6,10 +6,7 @@ public class CSPSolver {
     private final CSP csp;
     private ValueOrderer valueOrderer;
     private VariableOrderer variableOrderer;
-    private int recursiveCalls = 0;
     private final Assignment assignment = new Assignment();
-    private final static Assignment FAILURE = null;
-    private final static int NANO_TO_MIL = 1000000;
 
     public CSPSolver(CSP csp, ValueOrderer.Order valueOrder, VariableOrderer.Order variableOrder) {
         this.csp = csp;
@@ -22,30 +19,37 @@ public class CSPSolver {
     }
 
     public void setVariableOrder(VariableOrderer.Order variableOrder) {
-        this.variableOrderer = VariableOrderer.getVariableOrderer(variableOrder, assignment, csp.getVariables());
+        this.variableOrderer = VariableOrderer.getVariableOrderer(variableOrder, assignment, csp.variables);
     }
+
+
+    private int recursiveCalls = 0;
+    private final StringBuilder indent = new StringBuilder();
+    private final static Assignment FAILURE = null;
 
     public CrosswordPuzzle solve() {
         Logger.log(Level.FINER, "Attempting to solve crossword puzzle...\n");
-        long startTime = System.nanoTime();
+        long startTime = System.currentTimeMillis();
 
-        Assignment solution = backtrackingSearch(1);
+        Assignment solution = backtrackingSearch();
 
-        long timeInMS = (System.nanoTime() - startTime) / NANO_TO_MIL;
+        long time = System.nanoTime() - startTime;
 
-        if (solution == FAILURE) return null;
-
-        Logger.log(Level.FINE, String.format("SUCCESS! Solving took %dms (%d recursive calls)", timeInMS, recursiveCalls));
-
-        return csp.getSolutionPuzzle(solution);
+        if (solution == FAILURE) {
+            Logger.log(Level.FINE, String.format("FAILED! Found no solution. Took %dms (%d recursive calls)", time, recursiveCalls));
+            return null;
+        } else {
+            Logger.log(Level.FINE, String.format("SUCCESS! Solving took %dms (%d recursive calls)", time, recursiveCalls));
+            return csp.getSolutionPuzzle(solution);
+        }
     }
 
-    private Assignment backtrackingSearch(int indent) {
+    private Assignment backtrackingSearch() {
         recursiveCalls++;
 
-        if (assignment.isComplete(csp.getVariables())) return assignment;
+        if (assignment.isComplete(csp.variables)) return assignment;
         Word variable = selectUnassignedVariable();
-        Logger.log(Level.FINEST, String.format("%" + indent++ + "sBranching on %s:", "", variable));
+        Logger.log(Level.FINEST, String.format("%sBranching on %s:", indent, variable));
 
         String[] domain = variable.getDomain();
         if (domain == null) return FAILURE;
@@ -54,11 +58,12 @@ public class CSPSolver {
             assignment.addAssignment(variable, value);
 
             if (assignment.isConsistent()) {
-                Logger.log(Level.FINEST, String.format("%" + indent + "sAssignment { %s = %s } is consistent", "", variable, value));
-                Assignment result = backtrackingSearch(++indent);
+                Logger.log(Level.FINEST, String.format("%sAssignment { %s = %s } is consistent", indent, variable, value));
+                indent.append(" ");
+                Assignment result = backtrackingSearch();
                 if (result != FAILURE) return result;
             } else {
-                Logger.log(Level.FINEST, String.format("%" + indent + "sAssignment { %s = %s } is inconsistent", "", variable, value));
+                Logger.log(Level.FINEST, String.format("%sAssignment { %s = %s } is inconsistent", indent, variable, value));
             }
 
             assignment.removeAssignment(variable);
