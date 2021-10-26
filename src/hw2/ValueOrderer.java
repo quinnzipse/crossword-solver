@@ -44,7 +44,9 @@ public abstract class ValueOrderer {
                 assignment.addAssignment(word, domainValue);
 
                 int lcv = getLCV(word);
-                if (lcv != NOT_CONSISTENT) orderedDomain.add(new Value(domainValue, lcv));
+                if (lcv != NOT_CONSISTENT) {
+                    orderedDomain.add(new Value(domainValue, lcv));
+                }
 
                 assignment.removeAssignment(word);
             }
@@ -59,8 +61,8 @@ public abstract class ValueOrderer {
             for (Constraint constraint : constraints) {
                 Word constrainedWord = constraint.getOtherWord(word);
 
-                if (!assignment.containsKey(constrainedWord)) {
-                    int constrainedWordDomainSize = getValidDomainSize(constrainedWord);
+                if (!assignment.isAssigned(constrainedWord)) {
+                    int constrainedWordDomainSize = getValidDomainSize(constrainedWord, constraint);
 
                     if (constrainedWordDomainSize == 0) {
                         constraintFactor = NOT_CONSISTENT;
@@ -74,21 +76,22 @@ public abstract class ValueOrderer {
             return constraintFactor;
         }
 
-        private String[] getArray(PriorityQueue<Value> orderedDomain) {
-            return orderedDomain.stream().map(value -> value.value).toArray(String[]::new);
-        }
-
-        private int getValidDomainSize(Word constrainedWord) {
+        public int getValidDomainSize(Word constrainedWord, Constraint constraint) {
             String[] constrainedWordDomain = constrainedWord.getDomain();
 
             return (int) Arrays.stream(constrainedWordDomain)
                     .filter(value -> {
                         assignment.addAssignment(constrainedWord, value);
-                        boolean keep = assignment.isConsistent();
+                        boolean keep = constraint.isSatisfied(assignment); // LCV
+//                        boolean keep = assignment.isConsistent();        // LCV+
                         assignment.remove(constrainedWord);
                         return keep;
                     })
                     .count();
+        }
+
+        private String[] getArray(PriorityQueue<Value> orderedDomain) {
+            return orderedDomain.stream().map(value -> value.value).toArray(String[]::new);
         }
 
         private static class Value implements Comparable<Value> {

@@ -16,6 +16,10 @@ public class Assignment extends HashMap<Word, String> {
         return true;
     }
 
+    public boolean isAssigned(Word word) {
+        return containsKey(word);
+    }
+
     public void addAssignment(Word word, String string) {
         put(word, string);
     }

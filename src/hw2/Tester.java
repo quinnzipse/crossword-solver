@@ -15,7 +15,7 @@ public class Tester {
 
         String dictionaryFileName = arguments.get("-d");
         Logger.log(Level.FINER, String.format("Reading dictionary from [%s]", dictionaryFileName));
-        Domains domains = readDictionaries(dictionaryFileName);
+        Domains domains = getDomainsFromDictionary(dictionaryFileName);
 
         String valueOrderString = arguments.get("-vo");
         ValueOrderer.Order valueOrder = ValueOrderer.getOrderByString(valueOrderString);
@@ -34,10 +34,10 @@ public class Tester {
         }
     }
 
-    private static Domains readDictionaries(String fileName) {
+    private static Domains getDomainsFromDictionary(String fileName) {
         Domains domains = Domains.createFromFile(fileName);
         if (domains == null) {
-            System.err.println("Cannot read puzzle. Quitting.");
+            System.err.println("Cannot read domains. Quitting.");
             System.exit(1);
         }
 
