@@ -20,8 +20,11 @@ public class Tester {
         String valueOrderString = arguments.get("-vo");
         ValueOrderer.Order valueOrder = ValueOrderer.getOrderByString(valueOrderString);
 
+        String variableSelectionString = arguments.get("-vs");
+        VariableOrderer.Order variableOrder = VariableOrderer.getOrderByString(variableSelectionString);
+
         CSP csp = new CSP(puzzleKey, dictionaries);
-        CSPSolver cspSolver = new CSPSolver(csp, valueOrder, VariableOrderer.Order.STATIC);
+        CSPSolver cspSolver = new CSPSolver(csp, valueOrder, variableOrder);
 
         CrosswordPuzzle puzzle = cspSolver.solve();
         if (puzzle != null) {
