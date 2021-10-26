@@ -4,18 +4,24 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class PuzzleKey extends Puzzle {
     private final Word[] list;
+    private final Map<Integer, Integer> indexToNumber;
 
-    private PuzzleKey(int width, int height, char[] board) {
+    private PuzzleKey(int width, int height, char[] board, Map<Integer, Integer> indexToNumber) {
         super(width, height, board);
         list = generateWordList();
+        this.indexToNumber = indexToNumber;
     }
 
     public static PuzzleKey createFromFile(String filename) {
         try {
+            Map<Integer, Integer> indexToNumber = new HashMap<>();
             Scanner scanner = new Scanner(new File(filename));
 
             int width = scanner.nextInt();
@@ -25,14 +31,15 @@ public class PuzzleKey extends Puzzle {
 
             for (int i = 0; i < width * height; i++) {
                 if (scanner.hasNextInt()) {
-                    scanner.nextInt();
+                    int number = scanner.nextInt();
                     board[i] = '@';
+                    indexToNumber.put(i, number);
                 } else {
                     board[i] = scanner.next().charAt(0);
                 }
             }
 
-            return new PuzzleKey(width, height, board);
+            return new PuzzleKey(width, height, board, indexToNumber);
         } catch (IOException e) {
             System.out.println("File not found");
             return null;
@@ -96,4 +103,14 @@ public class PuzzleKey extends Puzzle {
     private boolean isNumber(int x, int y) {
         return get(x, y) == '@';
     }
+
+    public int coordToIndex(Point2D coordinates) {
+        return (int) (coordinates.getY() * getWidth() + coordinates.getX());
+    }
+
+    public int getNumber(Point2D coordinates) {
+        return indexToNumber.get(coordToIndex(coordinates));
+    }
 }
+
+

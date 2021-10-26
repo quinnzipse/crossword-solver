@@ -45,7 +45,7 @@ public class CSPSolver {
 
         if (assignment.isComplete(csp.getVariables())) return assignment;
         Word variable = selectUnassignedVariable();
-        Logger.log(Level.FINEST, String.format("%" + indent++ + "sBranching on %s:", "", variable.toString()));
+        Logger.log(Level.FINEST, String.format("%" + indent++ + "sBranching on %s:", "", getWordName(variable)));
 
         String[] domain = variable.getDomain();
         if (domain == null) return FAILURE;
@@ -54,16 +54,21 @@ public class CSPSolver {
             assignment.addAssignment(variable, value);
 
             if (assignment.isConsistent()) {
-                Logger.log(Level.FINEST, String.format("%" + indent + "sAssignment { %s = %s } is consistent", "", variable, value));
+                Logger.log(Level.FINEST, String.format("%" + indent + "sAssignment { %s = %s } is consistent", "", getWordName(variable), value));
                 Assignment result = backtrackingSearch(++indent);
                 if (result != FAILURE) return result;
             } else {
-                Logger.log(Level.FINEST, String.format("%" + indent + "sAssignment { %s = %s } is inconsistent", "", variable, value));
+                Logger.log(Level.FINEST, String.format("%" + indent + "sAssignment { %s = %s } is inconsistent", "", getWordName(variable), value));
             }
 
             assignment.removeAssignment(variable);
         }
         return FAILURE;
+    }
+
+    private String getWordName(Word word) {
+        // TODO: if time, clean this up.
+        return "X" + csp.getPuzzleKey().getNumber(word.getStartingPoint()) + (word.getDirection() == Direction.ACROSS ? "a" : "d");
     }
 
     private String[] orderedDomain(Word variable) {

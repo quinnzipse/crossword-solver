@@ -18,6 +18,14 @@ public class Word {
         this.direction = direction;
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public Point2D getStartingPoint() {
+        return line.getP1();
+    }
+
     public void setPuzzleValue(Puzzle puzzle, String value) {
         puzzle.setValue(line.getP1(), direction, value);
     }
