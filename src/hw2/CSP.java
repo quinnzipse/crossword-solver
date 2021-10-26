@@ -6,14 +6,13 @@ public class CSP {
     private final Word[] variables;
     private final Dictionaries domains;
     private final Constraints constraints;
-    private final CrosswordPuzzle solution;
+
     private final PuzzleKey puzzleKey;
 
     public CSP(PuzzleKey puzzleKey, Dictionaries domains) {
         this.variables = puzzleKey.getWordList();
         this.constraints = Constraints.generateConstraints(puzzleKey);
         this.domains = domains;
-        this.solution = puzzleKey.createBlankPuzzle();
         this.puzzleKey = puzzleKey;
 
         Logger.log(Level.FINER, String.format("CSP has %d variables", variables.length));
@@ -21,10 +20,6 @@ public class CSP {
 
         setDomains();
         setConstraints();
-    }
-
-    public PuzzleKey getPuzzleKey() {
-        return puzzleKey;
     }
 
     private void setDomains() {
@@ -45,8 +40,9 @@ public class CSP {
         return variables;
     }
 
-    public CrosswordPuzzle getSolutionPuzzle(Assignment solutionAssignments) {
-        solution.fillWords(solutionAssignments);
-        return solution;
+    public CrosswordPuzzle getSolutionPuzzle(Assignment solution) {
+        CrosswordPuzzle solvedPuzzle = puzzleKey.createBlankPuzzle();
+        solvedPuzzle.fillWords(solution);
+        return solvedPuzzle;
     }
 }

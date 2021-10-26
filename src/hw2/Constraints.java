@@ -10,7 +10,7 @@ public class Constraints extends ArrayList<Constraint> {
     public static Constraints generateConstraints(PuzzleKey puzzleKey) {
         Word[] words = puzzleKey.getWordList();
         Constraints constraints = new Constraints();
-        int puzzleLength = puzzleKey.getHeight() * puzzleKey.getWidth();
+        int puzzleLength = puzzleKey.height * puzzleKey.width;
 
         for (int i = 0; i < puzzleLength; i++) {
             Point2D coordinates = puzzleKey.getCoordinates(i);

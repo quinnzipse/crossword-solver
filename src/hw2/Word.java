@@ -8,14 +8,17 @@ import java.util.Set;
 public class Word {
     private final int length;
     private final Line2D line;
-    private String[] domain;
     private final Direction direction;
+    private final int wordNumber;
+
+    private String[] domain;
     private final Constraints constraints = new Constraints();
 
-    public Word(int length, Line2D line, Direction direction) {
+    public Word(int length, Line2D line, Direction direction, int wordNumber) {
         this.length = length;
         this.line = line;
         this.direction = direction;
+        this.wordNumber = wordNumber;
     }
 
     public Direction getDirection() {
@@ -24,10 +27,6 @@ public class Word {
 
     public Point2D getStartingPoint() {
         return line.getP1();
-    }
-
-    public void setPuzzleValue(Puzzle puzzle, String value) {
-        puzzle.setValue(line.getP1(), direction, value);
     }
 
     public void print() {
@@ -94,6 +93,6 @@ public class Word {
 
     @Override
     public String toString() {
-        return "X00" + (direction == Direction.ACROSS ? "a" : "d");
+        return "X" + wordNumber + (direction == Direction.ACROSS ? "a" : "d");
     }
 }

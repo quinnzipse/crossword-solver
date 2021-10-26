@@ -4,19 +4,14 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
-public class PuzzleKey extends Puzzle {
+public class PuzzleKey extends Board {
     private final Word[] list;
-    private final Map<Integer, Integer> indexToNumber;
 
     private PuzzleKey(int width, int height, char[] board, Map<Integer, Integer> indexToNumber) {
         super(width, height, board);
-        list = generateWordList();
-        this.indexToNumber = indexToNumber;
+        list = generateWordList(indexToNumber);
     }
 
     public static PuzzleKey createFromFile(String filename) {
@@ -33,6 +28,7 @@ public class PuzzleKey extends Puzzle {
                 if (scanner.hasNextInt()) {
                     int number = scanner.nextInt();
                     board[i] = '@';
+                    // TODO: If time, create words here!
                     indexToNumber.put(i, number);
                 } else {
                     board[i] = scanner.next().charAt(0);
@@ -47,41 +43,58 @@ public class PuzzleKey extends Puzzle {
     }
 
     public CrosswordPuzzle createBlankPuzzle() {
-        char[] board = getBoard();
+        char[] board = new char[width * height];
 
-        for (int i = 0; i < board.length; i++) {
-            if (board[i] != '#') board[i] = '+';
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int index = coordinatesToIndex(x, y);
+                if (isBlack(x, y)) board[index] = '#';
+            }
         }
 
-        return new CrosswordPuzzle(getWidth(), getHeight(), board);
+        return new CrosswordPuzzle(width, height, board);
     }
 
-    private Word[] generateWordList() {
+    private Word[] generateWordList(Map<Integer, Integer> wordNumbersByIndex) {
         ArrayList<Word> wordList = new ArrayList<>();
 
-        for (int x = 0; x < getWidth(); x++) {
-            for (int y = 0; y < getHeight(); y++) {
-                if (isDownWord(x, y)) wordList.add(addWord(x, y, Direction.DOWN));
-                if (isAcrossWord(x, y)) wordList.add(addWord(x, y, Direction.ACROSS));
-            }
+        for (int index : wordNumbersByIndex.keySet()) {
+            Point2D coords = indexToCoordinates(index);
+            int x = (int) coords.getX(), y = (int) coords.getY(),
+                    wordNumber = wordNumbersByIndex.get(index);
+
+            if (isDownWord(x, y)) wordList.add(generateWord(x, y, Direction.DOWN, wordNumber));
+            if (isAcrossWord(x, y)) wordList.add(generateWord(x, y, Direction.ACROSS, wordNumber));
         }
 
         return wordList.toArray(new Word[0]);
     }
 
-    public Word[] getWordList() {
-        return list;
-    }
+    private Word generateWord(int x, int y, Direction direction, int wordNumber) {
+        Point2D start = new Point2D.Float(x, y),
+                end = getEndCoordinates(x, y, direction);
 
-    private Word addWord(int x, int y, Direction direction) {
-        Point2D start = new Point2D.Float(x, y), end = getEndCoords(x, y, direction);
         Line2D line = new Line2D.Float(start, end);
         int length;
 
         if (Direction.ACROSS == direction) length = (int) (line.getX2() - line.getX1());
         else length = (int) (line.getY2() - line.getY1());
 
-        return new Word(length, line, direction);
+        return new Word(length, line, direction, wordNumber);
+    }
+
+    private Point2D getEndCoordinates(int x, int y, Direction direction) {
+        if (direction == Direction.ACROSS) {
+            for (; x < width; x++) {
+                if (isBlack(x, y)) break;
+            }
+        } else {
+            for (; y < height; y++) {
+                if (isBlack(x, y)) break;
+            }
+        }
+
+        return new Point2D.Float(x, y);
     }
 
     private boolean isDownWord(int x, int y) {
@@ -93,7 +106,7 @@ public class PuzzleKey extends Puzzle {
     }
 
     private boolean isBlack(int x, int y) {
-        return get(x, y) == '#';
+        return getAt(x, y) == '#';
     }
 
     public boolean isBlack(Point2D coordinates) {
@@ -101,15 +114,12 @@ public class PuzzleKey extends Puzzle {
     }
 
     private boolean isNumber(int x, int y) {
-        return get(x, y) == '@';
+        return getAt(x, y) == '@';
     }
 
-    public int coordToIndex(Point2D coordinates) {
-        return (int) (coordinates.getY() * getWidth() + coordinates.getX());
-    }
 
-    public int getNumber(Point2D coordinates) {
-        return indexToNumber.get(coordToIndex(coordinates));
+    public Word[] getWordList() {
+        return list;
     }
 }
 
