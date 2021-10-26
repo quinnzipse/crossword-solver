@@ -15,7 +15,7 @@ public class Tester {
 
         String dictionaryFileName = arguments.get("-d");
         Logger.log(Level.FINER, String.format("Reading dictionary from [%s]", dictionaryFileName));
-        Dictionaries dictionaries = readDictionaries(dictionaryFileName);
+        Domains domains = readDictionaries(dictionaryFileName);
 
         String valueOrderString = arguments.get("-vo");
         ValueOrderer.Order valueOrder = ValueOrderer.getOrderByString(valueOrderString);
@@ -23,7 +23,7 @@ public class Tester {
         String variableSelectionString = arguments.get("-vs");
         VariableOrderer.Order variableOrder = VariableOrderer.getOrderByString(variableSelectionString);
 
-        CSP csp = new CSP(puzzleKey, dictionaries);
+        CSP csp = new CSP(puzzleKey, domains);
         CSPSolver cspSolver = new CSPSolver(csp, valueOrder, variableOrder);
 
         CrosswordPuzzle puzzle = cspSolver.solve();
@@ -34,8 +34,8 @@ public class Tester {
         }
     }
 
-    private static Dictionaries readDictionaries(String fileName) {
-        Dictionaries domains = Dictionaries.createFromFile(fileName);
+    private static Domains readDictionaries(String fileName) {
+        Domains domains = Domains.createFromFile(fileName);
         if (domains == null) {
             System.err.println("Cannot read puzzle. Quitting.");
             System.exit(1);

@@ -4,12 +4,12 @@ import java.util.logging.Level;
 
 public class CSP {
     public final Word[] variables;
-    private final Dictionaries domains;
+    private final Domains domains;
     private final Constraints constraints;
 
     private final PuzzleKey puzzleKey;
 
-    public CSP(PuzzleKey puzzleKey, Dictionaries domains) {
+    public CSP(PuzzleKey puzzleKey, Domains domains) {
         this.variables = puzzleKey.wordList;
         this.domains = domains;
         this.puzzleKey = puzzleKey;

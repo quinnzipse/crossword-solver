@@ -33,7 +33,7 @@ public class CSPSolver {
 
         Assignment solution = backtrackingSearch();
 
-        long time = System.nanoTime() - startTime;
+        long time = System.currentTimeMillis() - startTime;
 
         if (solution == FAILURE) {
             Logger.log(Level.FINE, String.format("FAILED! Found no solution. Took %dms (%d recursive calls)", time, recursiveCalls));
