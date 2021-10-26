@@ -12,8 +12,20 @@ public class Arguments {
             "[-v <INT>] [-vs|--variable-selection <static|mrv|deg|mrv+deg>] [-vo|--value-order <static|lcv>]";
 
     public Arguments(String[] cmdLineArgs) {
+        preprocessArgs(cmdLineArgs);
         argumentMap = parse(cmdLineArgs);
         validateArguments();
+    }
+
+    private void preprocessArgs(String[] arguments) {
+        for (int i = 0; i < arguments.length; i++) {
+            String currentArg = arguments[i];
+            if (currentArg.equals("--value-order")) {
+                arguments[i] = "-vo";
+            } else if (currentArg.equals("--variable-selection")) {
+                arguments[i] = "-vs";
+            }
+        }
     }
 
     private void validateArguments() {
