@@ -51,7 +51,7 @@ public class MRVAndDegree extends VariableOrderer {
 
         @Override
         public int compareTo(MRVDegVar o) {
-            if (domainSize == o.domainSize) return degree - o.degree;
+            if (domainSize == o.domainSize) return o.degree - degree;
             return domainSize - o.domainSize;
         }
     }

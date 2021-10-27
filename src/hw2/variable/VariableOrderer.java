@@ -54,7 +54,7 @@ abstract public class VariableOrderer {
         Constraints constraints = variable.constraints;
         for (Constraint constraint : constraints) {
             Word otherWord = constraint.getOtherWord(variable);
-            if (!assignment.containsKey(otherWord)) degree++;
+            if (!assignment.isAssigned(otherWord)) degree++;
         }
 
         return degree;

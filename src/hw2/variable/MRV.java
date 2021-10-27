@@ -5,7 +5,6 @@ import hw2.Word;
 
 import java.util.PriorityQueue;
 
-// Broken :(
 public class MRV extends VariableOrderer {
     public MRV(Assignment assignment, Word[] variables) {
         super(assignment, variables);
@@ -49,7 +48,7 @@ public class MRV extends VariableOrderer {
 
         @Override
         public int compareTo(Variable o) {
-            return o.degree - degree;
+            return degree - o.degree;
         }
     }
 }

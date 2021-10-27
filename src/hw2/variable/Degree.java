@@ -12,21 +12,21 @@ public class Degree extends VariableOrderer {
 
     @Override
     public Word getNext() {
-        PriorityQueue<DegVar> orderedDomain = orderDomain();
-        return getNext(orderedDomain);
+        PriorityQueue<DegVar> orderedVariables = orderVariables();
+        return getNext(orderedVariables);
     }
 
-    private PriorityQueue<DegVar> orderDomain() {
-        PriorityQueue<DegVar> orderedDomain = new PriorityQueue<>();
+    private PriorityQueue<DegVar> orderVariables() {
+        PriorityQueue<DegVar> orderedVariables = new PriorityQueue<>();
 
         for (Word variable : variables) {
             if (!assignment.isAssigned(variable)) {
                 int degree = calculateDegree(variable);
-                orderedDomain.add(new DegVar(degree, variable));
+                orderedVariables.add(new DegVar(degree, variable));
             }
         }
 
-        return orderedDomain;
+        return orderedVariables;
     }
 
     private Word getNext(PriorityQueue<DegVar> orderedDomain) {
@@ -34,6 +34,7 @@ public class Degree extends VariableOrderer {
         while (v != null && assignment.containsKey(v.word)) {
             v = orderedDomain.poll();
         }
+
         if (v == null) return null;
         return v.word;
     }
@@ -45,7 +46,7 @@ public class Degree extends VariableOrderer {
 
         @Override
         public int compareTo(Variable o) {
-            return degree - o.degree;
+            return o.degree - degree;
         }
     }
 }
