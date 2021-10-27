@@ -21,21 +21,24 @@ public class Assignment extends HashMap<Word, String> {
                 Word other = constraint.getOtherWord(word);
 
                 if (isAssigned(other)) continue;
-
-                int possibilities = 0;
-                Assignment inner = new Assignment(this);
-                for (String d : other.getDomain()) {
-                    inner.addAssignment(other, d);
-                    if (other.isConsistent(inner)) possibilities++;
-                    inner.removeAssignment(other);
-                }
-                if (possibilities == 0) {
-                    return false;
-                }
+                if (!hasPossibleValue(other)) return false;
             }
         }
 
         return true;
+    }
+
+    private boolean hasPossibleValue(Word other) {
+        int possibilities = 0;
+        Assignment inner = new Assignment(this);
+
+        for (String d : other.getDomain()) {
+            inner.addAssignment(other, d);
+            if (other.isConsistent(inner)) possibilities++;
+            inner.removeAssignment(other);
+        }
+
+        return possibilities != 0;
     }
 
     public boolean isAssigned(Word word) {
