@@ -1,6 +1,6 @@
 package hw2.variable;
 
-public enum Order {
+public enum VariableOrder {
     STATIC,
     MOST_RESTRICTED_VARIABLE,
     DEGREE,

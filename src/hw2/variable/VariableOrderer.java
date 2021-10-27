@@ -11,17 +11,17 @@ abstract public class VariableOrderer {
 
     abstract public Word getNext();
 
-    public static Order getOrderByString(String s) {
+    public static VariableOrder getOrderByString(String s) {
         return switch (s) {
-            case "static" -> Order.STATIC;
-            case "mrv" -> Order.MOST_RESTRICTED_VARIABLE;
-            case "deg" -> Order.DEGREE;
-            case "mrv+deg" -> Order.MOST_RESTRICTED_VARIABLE_AND_DEGREE;
+            case "static" -> VariableOrder.STATIC;
+            case "mrv" -> VariableOrder.MOST_RESTRICTED_VARIABLE;
+            case "deg" -> VariableOrder.DEGREE;
+            case "mrv+deg" -> VariableOrder.MOST_RESTRICTED_VARIABLE_AND_DEGREE;
             default -> throw new IllegalArgumentException("Invalid Argument for Variable Selection: " + s);
         };
     }
 
-    public static VariableOrderer getVariableOrderer(Order variableOrder, Assignment assignment, Word[] variables) {
+    public static VariableOrderer getVariableOrderer(VariableOrder variableOrder, Assignment assignment, Word[] variables) {
         return switch (variableOrder) {
             case STATIC -> new Static(assignment, variables);
             case DEGREE -> new Degree(assignment, variables);
@@ -41,7 +41,7 @@ abstract public class VariableOrderer {
         String[] domain = variable.getDomain();
         for (String value : domain) {
             assignment.addAssignment(variable, value);
-            if (assignment.isConsistent()) remainingValues++;
+            if (variable.isConsistent(assignment)) remainingValues++;
             assignment.removeAssignment(variable);
         }
 

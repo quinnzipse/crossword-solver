@@ -1,6 +1,8 @@
 package hw2;
 
-import hw2.variable.Order;
+import hw2.value.ValueOrder;
+import hw2.value.ValueOrderer;
+import hw2.variable.VariableOrder;
 import hw2.variable.VariableOrderer;
 
 import java.util.logging.Level;
@@ -21,10 +23,10 @@ public class Tester {
         Domains domains = getDomainsFromDictionary(dictionaryFileName);
 
         String valueOrderString = arguments.get("-vo");
-        ValueOrderer.Order valueOrder = ValueOrderer.getOrderByString(valueOrderString);
+        ValueOrder valueOrder = ValueOrderer.getOrderByString(valueOrderString);
 
         String variableSelectionString = arguments.get("-vs");
-        Order variableOrder = VariableOrderer.getOrderByString(variableSelectionString);
+        VariableOrder variableOrder = VariableOrderer.getOrderByString(variableSelectionString);
 
         CSP csp = new CSP(puzzleKey, domains);
         CSPSolver cspSolver = new CSPSolver(csp, valueOrder, variableOrder);

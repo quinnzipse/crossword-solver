@@ -5,6 +5,7 @@ import hw2.Word;
 
 import java.util.PriorityQueue;
 
+// Broken :(
 public class MRV extends VariableOrderer {
     public MRV(Assignment assignment, Word[] variables) {
         super(assignment, variables);
@@ -13,6 +14,7 @@ public class MRV extends VariableOrderer {
     @Override
     public Word getNext() {
         PriorityQueue<MRVVariable> orderedDomain = orderDomain();
+        if (orderedDomain == null) return null;
         return getNext(orderedDomain);
     }
 
@@ -23,6 +25,7 @@ public class MRV extends VariableOrderer {
             if (assignment.isAssigned(variable)) continue;
 
             int mrvScore = calculateMRVScore(variable);
+            if (mrvScore == 0) return null;
             orderedDomain.add(new MRVVariable(mrvScore, variable));
         }
 
@@ -46,7 +49,7 @@ public class MRV extends VariableOrderer {
 
         @Override
         public int compareTo(Variable o) {
-            return degree - o.degree;
+            return o.degree - degree;
         }
     }
 }

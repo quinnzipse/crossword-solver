@@ -30,7 +30,7 @@ public class Arguments {
 
     private void validateArguments() {
         for (String requiredArgument : REQUIRED_ARGUMENTS) {
-            if (!argumentMap.containsKey(requiredArgument)) {
+            if (!isSet(requiredArgument)) {
                 System.err.println(requiredArgument + " is required!");
                 throw new IllegalArgumentException(USAGE_MESSAGE);
             }

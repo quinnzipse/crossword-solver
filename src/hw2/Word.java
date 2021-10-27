@@ -83,4 +83,12 @@ public class Word {
     public String toString() {
         return "X" + id + (direction == Direction.ACROSS ? "a" : "d");
     }
+
+    public boolean isConsistent(Assignment assignment) {
+        for (Constraint constraint : constraints) {
+            if (!constraint.isSatisfied(assignment)) return false;
+        }
+
+        return true;
+    }
 }

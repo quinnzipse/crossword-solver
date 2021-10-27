@@ -21,10 +21,9 @@ public class MRVAndDegree extends VariableOrderer {
 
         for (Word variable : variables) {
             if (assignment.containsKey(variable)) continue;
-            int remainingValues, degree;
 
-            remainingValues = calculateMRVScore(variable);
-            degree = calculateDegree(variable);
+            int remainingValues = calculateMRVScore(variable);
+            int degree = calculateDegree(variable);
             orderedDomain.add(new MRVDegVar(remainingValues, degree, variable));
         }
 

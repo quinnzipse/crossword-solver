@@ -1,6 +1,8 @@
 package hw2;
 
-import hw2.variable.Order;
+import hw2.value.ValueOrder;
+import hw2.value.ValueOrderer;
+import hw2.variable.VariableOrder;
 import hw2.variable.VariableOrderer;
 
 import java.util.logging.Level;
@@ -11,17 +13,17 @@ public class CSPSolver {
     private VariableOrderer variableOrderer;
     private final Assignment assignment = new Assignment();
 
-    public CSPSolver(CSP csp, ValueOrderer.Order valueOrder, Order variableOrder) {
+    public CSPSolver(CSP csp, ValueOrder valueOrder, VariableOrder variableOrder) {
         this.csp = csp;
         setValueOrder(valueOrder);
         setVariableOrder(variableOrder);
     }
 
-    public void setValueOrder(ValueOrderer.Order valueOrder) {
+    public void setValueOrder(ValueOrder valueOrder) {
         this.valueOrderer = ValueOrderer.getValueOrderer(valueOrder, assignment);
     }
 
-    public void setVariableOrder(Order variableOrder) {
+    public void setVariableOrder(VariableOrder variableOrder) {
         this.variableOrderer = VariableOrderer.getVariableOrderer(variableOrder, assignment, csp.variables);
     }
 
@@ -52,6 +54,8 @@ public class CSPSolver {
 
         if (assignment.isComplete(csp.variables)) return assignment;
         Word variable = selectUnassignedVariable();
+        if (variable == null) return FAILURE;
+
         Logger.log(Level.FINEST, String.format("%sBranching on %s:", indent, variable));
 
         String[] domain = variable.getDomain();
