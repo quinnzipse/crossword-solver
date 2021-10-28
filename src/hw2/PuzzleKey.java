@@ -8,9 +8,11 @@ import java.util.*;
 
 public class PuzzleKey extends Board {
     public final Word[] wordList;
+    private Map<Integer, Integer> indexToNumber;
 
     private PuzzleKey(int width, int height, char[] board, Map<Integer, Integer> indexToNumber) {
         super(width, height, board);
+        this.indexToNumber = indexToNumber;
         wordList = generateWordList(indexToNumber);
     }
 
@@ -109,8 +111,12 @@ public class PuzzleKey extends Board {
         return isBlack((int) coordinates.getX(), (int) coordinates.getY());
     }
 
-    private boolean isNumber(int x, int y) {
+    public boolean isNumber(int x, int y) {
         return getAt(x, y) == '@';
+    }
+
+    public int getNumber(int index) {
+        return indexToNumber.get(index);
     }
 }
 

@@ -39,8 +39,7 @@ public class CSPSolver {
     public CrosswordPuzzle solve() {
         Logger.log(Level.FINER, "Attempting to solve crossword puzzle...\n");
         long startTime = System.currentTimeMillis();
-        var tempPuzzle = csp.getSolutionPuzzle(assignment);
-        if (useGUI) gui = new PuzzleGUI(tempPuzzle, guiDelay);
+        if (useGUI) gui = new PuzzleGUI(csp.puzzleKey, guiDelay);
 
         Assignment solution = backtrackingSearch();
         if (useGUI) {

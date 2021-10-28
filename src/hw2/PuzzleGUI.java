@@ -10,28 +10,42 @@ public class PuzzleGUI {
     private final int delay;
     private final JFrame frame;
 
-    public PuzzleGUI(CrosswordPuzzle puzzle, int delay) {
+    public PuzzleGUI(PuzzleKey puzzleKey, int delay) {
         this.delay = delay;
 
         frame = new JFrame("Crossword Puzzle");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(puzzle.width * 70, puzzle.height * 70);
+        frame.setSize(puzzleKey.width * 70, puzzleKey.height * 70);
 
-        labels = new JLabel[puzzle.height * puzzle.width];
-        frame.setLayout(new GridLayout(puzzle.height, puzzle.width));
-        for (int i = 0; i < puzzle.height * puzzle.width; i++) {
-            var coordinates = puzzle.getCoordinates(i);
-            var key = puzzle.getAt((int) coordinates.getX(), (int) coordinates.getY());
+        labels = new JLabel[puzzleKey.height * puzzleKey.width];
+        frame.setLayout(new GridLayout(puzzleKey.height, puzzleKey.width));
+        for (int i = 0; i < puzzleKey.height * puzzleKey.width; i++) {
+            var coordinates = puzzleKey.getCoordinates(i);
+            var key = puzzleKey.getAt((int) coordinates.getX(), (int) coordinates.getY());
 
             JLabel blank = new JLabel(String.valueOf(key), JLabel.CENTER);
+            blank.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 32));
+
             if (key == '#') {
                 blank.setOpaque(true);
                 blank.setBackground(Color.BLACK);
+                blank.setBorder(new BorderUIResource.LineBorderUIResource(Color.BLACK));
+                frame.add(blank);
+            } else if (puzzleKey.isNumber((int) coordinates.getX(), (int) coordinates.getY())) {
+                JComponent container = new JPanel(new GridLayout(2, 1));
+                container.setBorder(new BorderUIResource.LineBorderUIResource(Color.BLACK));
+
+                JLabel superScript = new JLabel(String.valueOf(puzzleKey.getNumber(i)), JLabel.LEFT);
+                superScript.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+                container.add(superScript);
+                container.add(blank);
+
+                frame.add(container);
+            } else {
+                blank.setBorder(new BorderUIResource.LineBorderUIResource(Color.BLACK));
+                frame.add(blank);
             }
 
-            blank.setBorder(new BorderUIResource.LineBorderUIResource(Color.BLACK));
-            blank.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 32));
-            frame.add(blank);
             labels[i] = blank;
         }
 

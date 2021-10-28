@@ -7,7 +7,7 @@ public class CSP {
     private final Domains domains;
     private final Constraints constraints;
 
-    private final PuzzleKey puzzleKey;
+    public final PuzzleKey puzzleKey;
 
     public CSP(PuzzleKey puzzleKey, Domains domains) {
         this.variables = puzzleKey.wordList;
