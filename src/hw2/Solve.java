@@ -5,9 +5,10 @@ import hw2.value.ValueOrderer;
 import hw2.variable.VariableOrder;
 import hw2.variable.VariableOrderer;
 
+import java.util.InputMismatchException;
 import java.util.logging.Level;
 
-public class Tester {
+public class Solve {
     public static void main(String[] args) {
         Arguments arguments = parseArguments(args);
 
@@ -28,8 +29,10 @@ public class Tester {
         String variableSelectionString = arguments.get("-vs");
         VariableOrder variableOrder = VariableOrderer.getOrderByString(variableSelectionString);
 
+        int guiDelay = getGUIDelay(arguments.get("-gui"));
+
         CSP csp = new CSP(puzzleKey, domains);
-        CSPSolver cspSolver = new CSPSolver(csp, valueOrder, variableOrder);
+        CSPSolver cspSolver = new CSPSolver(csp, valueOrder, variableOrder, guiDelay);
 
         CrosswordPuzzle puzzle = cspSolver.solve();
         if (puzzle != null) {
@@ -37,6 +40,20 @@ public class Tester {
         } else {
             Logger.log(Level.FINE, "No solution found");
         }
+    }
+
+    private static int getGUIDelay(String guiDelay) {
+        int delay = -1;
+
+        if (guiDelay != null) {
+            try {
+                delay = Integer.parseInt(guiDelay);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Invalid GUI delay: " + guiDelay);
+            }
+        }
+
+        return delay;
     }
 
     private static Domains getDomainsFromDictionary(String fileName) {

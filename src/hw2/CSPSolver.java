@@ -12,9 +12,14 @@ public class CSPSolver {
     private ValueOrderer valueOrderer;
     private VariableOrderer variableOrderer;
     private final Assignment assignment = new Assignment();
+    private PuzzleGUI gui;
+    private final int guiDelay;
+    private final boolean useGUI;
 
-    public CSPSolver(CSP csp, ValueOrder valueOrder, VariableOrder variableOrder) {
+    public CSPSolver(CSP csp, ValueOrder valueOrder, VariableOrder variableOrder, int guiDelay) {
         this.csp = csp;
+        this.guiDelay = guiDelay;
+        this.useGUI = guiDelay != -1;
         setValueOrder(valueOrder);
         setVariableOrder(variableOrder);
     }
@@ -27,7 +32,6 @@ public class CSPSolver {
         this.variableOrderer = VariableOrderer.getVariableOrderer(variableOrder, assignment, csp.variables);
     }
 
-
     private int recursiveCalls = 0;
     private final StringBuilder indent = new StringBuilder();
     private final static Assignment FAILURE = null;
@@ -35,8 +39,17 @@ public class CSPSolver {
     public CrosswordPuzzle solve() {
         Logger.log(Level.FINER, "Attempting to solve crossword puzzle...\n");
         long startTime = System.currentTimeMillis();
+        var tempPuzzle = csp.getSolutionPuzzle(assignment);
+        if (useGUI) gui = new PuzzleGUI(tempPuzzle, guiDelay);
 
         Assignment solution = backtrackingSearch();
+        if (useGUI) {
+            try {
+                gui.update(csp.getSolutionPuzzle(solution), null, assignment);
+            } catch (Exception e) {
+                System.err.println("Exception thrown");
+            }
+        }
 
         long time = System.currentTimeMillis() - startTime;
 
@@ -55,6 +68,14 @@ public class CSPSolver {
         if (assignment.isComplete(csp.variables)) return assignment;
         Word variable = selectUnassignedVariable();
         if (variable == null) return FAILURE;
+
+        if (useGUI) {
+            try {
+                gui.update(csp.getSolutionPuzzle(assignment), variable, assignment);
+            } catch (Exception e) {
+                System.err.println("Exception thrown");
+            }
+        }
 
         Logger.log(Level.FINEST, String.format("%sBranching on %s:", indent, variable));
 

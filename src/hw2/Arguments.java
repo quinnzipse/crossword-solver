@@ -9,7 +9,7 @@ public class Arguments {
     private static final String[] REQUIRED_ARGUMENTS = {"-d", "-p", "-v", "-vs", "-vo"};
     private static final String[] DEFAULTS = {"-v", "0", "-vs", "static", "-vo", "static"};
     private static final String USAGE_MESSAGE = "USAGE: Java Solve -d <FILENAME> -p <FILENAME> " +
-            "[-v <INT>] [-vs|--variable-selection <static|mrv|deg|mrv+deg>] [-vo|--value-order <static|lcv>]";
+            "[-v <INT>] [-vs|--variable-selection <static|mrv|deg|mrv+deg>] [-vo|--value-order <static|lcv>] [-gui <delay>]";
 
     public Arguments(String[] cmdLineArgs) {
         preprocessArgs(cmdLineArgs);
